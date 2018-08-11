@@ -1,16 +1,30 @@
 const http = require('http');
 const fs = require('fs');
 
-let HTML = fs.readFileSync('./index.html');
+
 
 const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-type': 'application/json' });
-    const json = JSON.stringify({
-        name:'Alex',
-        cars:['Toyota','Subaru']
-    })
+    if(req.url === "/"){
+        res.writeHead(200, { 'Content-type': 'text/html' });
+        let HTML = fs.readFileSync('./index.html');
+        res.end(HTML);
+    } else if(req.url === "/api/user"){
+        res.writeHead(200, { 'Content-type': 'application/json' });
 
-    res.end(json.toString());
+        const json = JSON.stringify({
+            name:'Alex',
+            cars:['Toyota','Subaru']
+        })
+    
+        res.end(json);
+    } else {
+        res.writeHead(404);
+        res.end();
+    }
+
+
+    
+
 })
 
 
